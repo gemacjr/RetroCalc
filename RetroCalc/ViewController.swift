@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         case Multiply = "*"
         case Subtract = "-"
         case Add = "+"
-        case Equals = "="
+        
         case Empty = "Empty"
         
     }
@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     var leftValString = ""
     var rightValString = ""
     var currentOperation: Operation = Operation.Empty
+    var result = ""
     
 
     override func viewDidLoad() {
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
         
     }
     @IBAction func onEqualPresed(sender: AnyObject) {
-        processOperation(Operation.Equals)
+        processOperation(currentOperation)
         
     }
     
@@ -83,12 +84,37 @@ class ViewController: UIViewController {
         playSound()
         
         if currentOperation != Operation.Empty {
-            // RUn Math
+            //Run the math
+            
+            if runningNumber != "" {
+                
+                rightValString = runningNumber
+                runningNumber = ""
+                
+                
+                if currentOperation == Operation.Multiply {
+                    result = "\(Double(leftValString)! * Double(rightValString)!)"
+                } else if currentOperation == Operation.Divide {
+                    result = "\(Double(leftValString)! / Double(rightValString)!)"
+                } else if currentOperation == Operation.Subtract {
+                    result = "\(Double(leftValString)! - Double(rightValString)!)"
+                } else if currentOperation == Operation.Add {
+                    result = "\(Double(leftValString)! + Double(rightValString)!)"
+                }
+                
+                leftValString = result
+                outputLabel.text = result
+                
+            }
+            
+            
+            currentOperation = op 
+            
         }else {
             // First time operator is pressed
             leftValString = runningNumber
             runningNumber = ""
-            currentOperation = op 
+            currentOperation = op
         }
     }
     
